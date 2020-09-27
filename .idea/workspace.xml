@@ -46,7 +46,7 @@
       <workItem from="1601238707862" duration="27000" />
       <workItem from="1601238796285" duration="53000" />
       <workItem from="1601238877444" duration="456000" />
-      <workItem from="1601239354443" duration="789000" />
+      <workItem from="1601239354443" duration="3408000" />
     </task>
     <servers />
   </component>
@@ -54,6 +54,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="739" y="334" key="FileChooserDialogImpl" timestamp="1601240310212">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="739" y="334" key="FileChooserDialogImpl/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601240310212" />
     <state x="460" y="224" key="SettingsEditor" timestamp="1601239759256">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
@@ -62,6 +66,14 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601237294307" />
+    <state x="92" y="92" width="1736" height="976" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1601241152962">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="92" y="92" width="1736" height="976" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601241152962" />
+    <state x="92" y="92" width="1736" height="976" key="git4idea.log.GitShowExternalLogAction" timestamp="1601241152962">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="92" y="92" width="1736" height="976" key="git4idea.log.GitShowExternalLogAction/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601241152962" />
     <state x="623" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1601237470529">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
