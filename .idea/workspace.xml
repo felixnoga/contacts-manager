@@ -31,7 +31,9 @@
     <property name="node.js.selected.package.stylelint" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\xampp\htdocs\contacts\node_modules\prettier" />
+    <property name="run.prettier.on.save" value="true" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -46,7 +48,7 @@
       <workItem from="1601238707862" duration="27000" />
       <workItem from="1601238796285" duration="53000" />
       <workItem from="1601238877444" duration="456000" />
-      <workItem from="1601239354443" duration="3408000" />
+      <workItem from="1601239354443" duration="12056000" />
     </task>
     <servers />
   </component>
@@ -58,10 +60,10 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="739" y="334" key="FileChooserDialogImpl/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601240310212" />
-    <state x="460" y="224" key="SettingsEditor" timestamp="1601239759256">
+    <state x="460" y="224" key="SettingsEditor" timestamp="1601244978065">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="460" y="224" key="SettingsEditor/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601239759256" />
+    <state x="460" y="224" key="SettingsEditor/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601244978065" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1601237294307">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
@@ -74,9 +76,9 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="92" y="92" width="1736" height="976" key="git4idea.log.GitShowExternalLogAction/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601241152962" />
-    <state x="623" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1601237470529">
+    <state x="623" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1601244492245">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="623" y="255" width="672" height="678" key="search.everywhere.popup/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601237470529" />
+    <state x="623" y="255" width="672" height="678" key="search.everywhere.popup/0.0.1920.1160/-1920.125.1920.1040@0.0.1920.1160" timestamp="1601244492245" />
   </component>
 </project>
