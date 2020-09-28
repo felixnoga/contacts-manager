@@ -52,4 +52,14 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { validateLoginUser, loginUser };
+const getAuthorizedUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ msg: "Hubo un problema con el servidor" });
+  }
+};
+
+module.exports = { validateLoginUser, loginUser, getAuthorizedUser };

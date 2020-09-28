@@ -1,14 +1,14 @@
-require("dotenv").config();
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+require('dotenv').config();
+const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const User = require("../models/User");
+const User = require('../models/User');
 
 const validatePostedUser = [
-  body("name", "El nombre de usuario es requerido").trim().not().isEmpty(),
-  body("email", "El email no es válido").isEmail(),
-  body("password", "El password debe contener al menos 6 caracteres").isLength({
+  body('name', 'El nombre de usuario es requerido').trim().not().isEmpty(),
+  body('email', 'El email no es válido').isEmail(),
+  body('password', 'El password debe contener al menos 6 caracteres').isLength({
     min: 6,
   }),
   async (req, res, next) => {
@@ -28,7 +28,7 @@ const insertUser = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      res.status(400).json({ msg: "El usuario ya existe" });
+      res.status(400).json({ msg: 'El usuario ya existe' });
     } else {
       const newUser = new User({ name, email, password });
       const salt = await bcrypt.genSalt(10);
@@ -52,7 +52,7 @@ const insertUser = async (req, res) => {
       );
     }
   } catch (err) {
-    res.status(500).json({ error: "Hubo un problema en el servidor" });
+    res.status(500).json({ error: 'Hubo un problema en el servidor' });
     console.log(err);
   }
 };

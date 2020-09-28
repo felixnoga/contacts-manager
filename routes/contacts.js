@@ -1,32 +1,31 @@
 const express = require('express');
 const router = express.Router();
 
+const authMiddleware = require('../middlewares/auth');
+const contactsController = require('../controllers/contacts.controller');
+
 //@route    GET api/contacts
 //@desc     Get all users contacts
 //@access   Private
-router.get('/', (req, res) => {
-    res.send('Get all contacts')
-});
+router.get('/', authMiddleware, contactsController.getContacts);
 
 //@route    POST api/contacts
 //@desc     Add new contact
 //@access   Private
-router.post('/', (req, res) => {
-    res.send('Add new contact')
-});
+router.post(
+  '/',
+  [authMiddleware, contactsController.validateContact],
+  contactsController.insertContact
+);
 
 //@route    PUT api/contacts
 //@desc     Edit a contact
 //@access   Private
-router.put('/:id', (req, res) => {
-    res.send(`Update contact ${req.params.id}`);
-});
+router.put('/:id', authMiddleware, contactsController.updateContact);
 
 //@route    DELETE api/contacts
 //@desc     Delete a contact
 //@access   Private
-router.delete('/:id', (req, res) => {
-    res.send(`Delete contact ${req.params.id}`);
-});
+router.delete('/:id', authMiddleware, contactsController.deleteContact);
 
 module.exports = router;
