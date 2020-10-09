@@ -1,0 +1,12 @@
+$navbar-item-color: #fff;
+$navbar-item-hover-color: hsl(171, 100%, 41%);
+$navbar-dropdown-background-color: hsl(171, 100%, 41%);
+$card-header-background-color: hsl(48, 100%, 67%);
+$card-header-color: hsl(48, 100%, 29%);
+@import "~bulma/bulma";
+
+@media (max-width: 1023px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
