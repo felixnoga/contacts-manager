@@ -9,7 +9,7 @@ const validatePostedUser = [
   body('name', 'El nombre de usuario es requerido').trim().not().isEmpty(),
   body('email', 'El email no es válido').isEmail(),
   body('password', 'El password debe contener al menos 6 caracteres').isLength({
-    min: 6,
+    min: 6
   }),
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -17,13 +17,9 @@ const validatePostedUser = [
       return res.status(400).json({ errors: errors.array() });
     }
     next();
-  },
+  }
 ];
 const insertUser = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   const { name, email, password } = req.body;
   try {
     let user = await User.findOne({ email });
@@ -36,14 +32,14 @@ const insertUser = async (req, res) => {
       await newUser.save();
       const payload = {
         user: {
-          id: newUser.id,
-        },
+          id: newUser.id
+        }
       };
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
         {
-          expiresIn: 360000,
+          expiresIn: 360000
         },
         (err, token) => {
           if (err) throw err;

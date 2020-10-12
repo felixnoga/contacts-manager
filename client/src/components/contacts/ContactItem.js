@@ -17,7 +17,15 @@ const ContactItem = ({ contact }) => {
     <div className="column is-half-desktop">
       <div className="card mb-3">
         <div className="card-header">
-          <h5 className="card-header-title is-size-7">{contact.name}</h5>
+          <h5 className="card-header-title is-size-7">
+            <figure className="image is-32x32 mr-2">
+              <img
+                className="is-rounded"
+                src={`${process.env.REACT_APP_BACKEND_IMAGES_URL}/${contact.image}`}
+              />
+            </figure>
+            {contact.name}
+          </h5>
           <p className="card-header-icon">
             {contact.type === 'profesional' ? (
               <span className="tag is-link">

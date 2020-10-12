@@ -1,12 +1,12 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const authMidleware = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const token = req.header('x-auth-token');
 
   if (!token) {
     return res
       .status(401)
-      .json({ msg: "Sin autorización para acceder. No hay token." });
+      .json({ msg: 'Sin autorización para acceder. No hay token.' });
   }
   try {
     //Payload of token is asigned to decoded
@@ -14,7 +14,7 @@ const authMidleware = (req, res, next) => {
     req.user = decoded.user;
     next();
   } catch (e) {
-    res.status(401).json({ msg: "Token no valido" });
+    res.status(401).json({ msg: 'Token no valido' });
   }
 };
 

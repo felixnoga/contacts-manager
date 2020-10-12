@@ -1,3 +1,18 @@
 .login-icon {
   color: hsl(348, 100%, 61%);
 }
+.alert-enter {
+  opacity: 0;
+  &-active {
+    opacity: 1;
+    transition: opacity 1000ms ease-in-out;
+  }
+}
+
+.alert-exit {
+  opacity: 1;
+  &-active {
+    opacity: 0;
+    transition: opacity 1000ms ease-in-out;
+  }
+}

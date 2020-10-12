@@ -8,21 +8,24 @@ const Input = (props) => {
     value,
     name,
     onChangeHandler,
+    onBlurHandler,
     hasIcon,
     icon,
-    type
+    type,
+    addedClass
   } = props;
   return (
     <div className="field">
       <label className="label">{label}</label>
       <div className={`control ${hasIcon ? 'has-icons-left' : ''}`}>
         <input
-          className="input"
+          className={`input ${addedClass}`}
           type={type}
           placeholder={placeholder}
           value={value}
           name={name}
           onChange={onChangeHandler}
+          onBlur={onBlurHandler}
         />
         <span className="icon is-small is-left">
           <FontAwesomeIcon icon={icon} />

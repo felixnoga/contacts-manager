@@ -7,6 +7,7 @@ import About from './components/pages/About';
 
 import { ContactProvider } from './context/contact/contactContext';
 import { AuthProvider } from './context/auth/authContext';
+import { AlertProvider } from './context/alert/alertContext';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 
@@ -14,19 +15,21 @@ const App = () => {
   return (
     <AuthProvider>
       <ContactProvider>
-        <Router>
-          <Fragment>
-            <Navbar />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/about" component={About} />
-              </Switch>
-            </div>
-          </Fragment>
-        </Router>
+        <AlertProvider>
+          <Router>
+            <Fragment>
+              <Navbar />
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/about" component={About} />
+                </Switch>
+              </div>
+            </Fragment>
+          </Router>
+        </AlertProvider>
       </ContactProvider>
     </AuthProvider>
   );

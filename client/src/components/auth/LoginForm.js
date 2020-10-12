@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../form/Input';
-import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
 const LoginForm = () => {
   const [user, setUser] = useState({

@@ -1,6 +1,8 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import contactReducer from './contactReducer';
+import axios from 'axios';
+import { getContacts, addCnt, updateCnt } from '../../helpers/fetchData';
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -8,52 +10,37 @@ import {
   CLEAR_CURRENT,
   UPDATE_CONTACT,
   FILTER_CONTACTS,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  GET_CONTACTS
 } from '../types';
 
 export const ContactContext = createContext();
 const initialState = {
-  contacts: [
-    {
-      id: 1,
-      name: 'Felix Nogales',
-      email: 'felixnoga@gmail.com',
-      phone: '696198087',
-      type: 'profesional'
-    },
-    {
-      id: 2,
-      name: 'Teresa de Miguel',
-      email: 'teresa@gmail.com',
-      phone: '659523658',
-      type: 'personal'
-    },
-    {
-      id: 3,
-      name: 'María Sanchez',
-      email: 'mariaSan@gmail.com',
-      phone: '569985444',
-      type: 'profesional'
-    },
-    {
-      id: 4,
-      name: 'Pepe Gotera',
-      email: 'gotera@gmail.com',
-      phone: '56992344',
-      type: 'personal'
-    }
-  ],
+  contacts: [],
   current: null,
   filtered: null
 };
 
 export const ContactProvider = (props) => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
+  useEffect(() => {
+    const initializeContacts = async () => {
+      await getAllContacts();
+    };
+    initializeContacts();
+  }, []);
 
   //Add Contact
-  const addContact = (contact) => {
-    contact.id = uuidv4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async (formData) => {
+    formData.append('id', uuidv4());
+    const newContact = await addCnt(formData);
+    dispatch({ type: ADD_CONTACT, payload: newContact });
+  };
+
+  //Get all contacts
+  const getAllContacts = async () => {
+    const contacts = await getContacts();
+    dispatch({ type: GET_CONTACTS, payload: contacts });
   };
   //Delete Contact
   const deleteContact = (id) => {
@@ -64,11 +51,12 @@ export const ContactProvider = (props) => {
     dispatch({ type: SET_CURRENT, payload: contact });
   };
   //Clear current Contact
-  const clearCurrent = () => {
+  const clearCurrent = (contact) => {
     dispatch({ type: CLEAR_CURRENT });
   };
   //Update Contact
-  const updateContact = (contact) => {
+  const updateContact = async (formdata) => {
+    const contact = await updateCnt(formdata);
     dispatch({ type: UPDATE_CONTACT, payload: contact });
   };
   //Filter Contacts
@@ -86,6 +74,7 @@ export const ContactProvider = (props) => {
         current: state.current,
         filtered: state.filtered,
         addContact,
+        getAllContacts,
         updateContact,
         deleteContact,
         setCurrent,

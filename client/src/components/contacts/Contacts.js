@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { ContactContext } from '../../context/contact/contactContext';
 import ContactItem from './ContactItem';
@@ -8,6 +8,7 @@ import '../css/contacts.scss';
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
   const { contacts, filtered } = contactContext;
+  const nodeRef = useRef(null);
 
   if (contacts.length === 0) {
     return <h4>No tienes contactos aún. Añade algunos.</h4>;
@@ -24,12 +25,22 @@ const Contacts = () => {
       <TransitionGroup className="columns is-multiline">
         {filtered
           ? filtered.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
+              <CSSTransition
+                nodeRef={nodeRef}
+                key={contact.id}
+                timeout={500}
+                classNames="item"
+              >
                 <ContactItem contact={contact} />
               </CSSTransition>
             ))
           : contacts.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
+              <CSSTransition
+                nodeRef={nodeRef}
+                key={contact.id}
+                timeout={500}
+                classNames="item"
+              >
                 <ContactItem contact={contact} />
               </CSSTransition>
             ))}
