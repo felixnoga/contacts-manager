@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import axios from 'axios';
+import setAuthToken from '../../helpers/setAuthToken';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -25,6 +26,20 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   //Load User (what user is logged in)
+
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth`
+      );
+      dispatch({ type: USER_LOADED, payload: res.data });
+    } catch (e) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
   //Register User (register a new user)
   const register = async (formData) => {
     const config = {
@@ -39,6 +54,7 @@ export const AuthProvider = (props) => {
         config
       );
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+      await loadUser();
     } catch (e) {
       e.response &&
         dispatch({ type: REGISTER_FAIL, payload: e.response.data.msg });
@@ -46,7 +62,28 @@ export const AuthProvider = (props) => {
     }
   };
   //Login User (create token)
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  const login = async (data) => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth`,
+        data
+      );
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data.token });
+      await loadUser();
+    } catch (e) {
+      dispatch({ type: LOGIN_FAIL, payload: e.response.data.msg });
+    }
+  };
+
   //Logout (destroy token)
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
   //Clear errors
   const clearErrors = () => {
     dispatch({ type: CLEAR_ERRORS });
@@ -61,7 +98,10 @@ export const AuthProvider = (props) => {
         user: state.user,
         error: state.error,
         register,
-        clearErrors
+        clearErrors,
+        loadUser,
+        login,
+        logout
       }}
     >
       {props.children}

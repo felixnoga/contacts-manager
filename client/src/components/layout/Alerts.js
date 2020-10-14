@@ -9,7 +9,6 @@ const Alerts = () => {
   const nodeRef = useRef(null);
   const onClickClose = (id) => {
     alertContext.removeAlert(id);
-    console.log('e');
   };
 
   return (

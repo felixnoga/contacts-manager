@@ -11,14 +11,18 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
-  GET_CONTACTS
+  GET_CONTACTS,
+  CONTACT_ERROR,
+  CLEAR_ERRORS,
+  CLEAR_CONTACTS
 } from '../types';
 
 export const ContactContext = createContext();
 const initialState = {
   contacts: [],
   current: null,
-  filtered: null
+  filtered: null,
+  error: null
 };
 
 export const ContactProvider = (props) => {
@@ -33,15 +37,28 @@ export const ContactProvider = (props) => {
   //Add Contact
   const addContact = async (formData) => {
     formData.append('id', uuidv4());
-    const newContact = await addCnt(formData);
-    dispatch({ type: ADD_CONTACT, payload: newContact });
+    try {
+      const newContact = await addCnt(formData);
+      dispatch({ type: ADD_CONTACT, payload: newContact });
+    } catch (e) {
+      dispatch({ type: CONTACT_ERROR, payload: e.response.data.msg });
+    }
   };
 
   //Get all contacts
   const getAllContacts = async () => {
-    const contacts = await getContacts();
-    dispatch({ type: GET_CONTACTS, payload: contacts });
+    try {
+      const contacts = await getContacts();
+      dispatch({ type: GET_CONTACTS, payload: contacts });
+    } catch (e) {
+      dispatch({ type: CONTACT_ERROR, payload: e.response.data.msg });
+    }
   };
+
+  const clearContacts = () => {
+    dispatch({ type: CLEAR_CONTACTS });
+  };
+
   //Delete Contact
   const deleteContact = (id) => {
     dispatch({ type: DELETE_CONTACT, payload: id });
@@ -73,8 +90,10 @@ export const ContactProvider = (props) => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContact,
         getAllContacts,
+        clearContacts,
         updateContact,
         deleteContact,
         setCurrent,

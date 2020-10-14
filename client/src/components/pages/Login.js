@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import LoginForm from '../auth/LoginForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/auth.scss';
+import { AuthContext } from '../../context/auth/authContext';
 
-const Login = () => {
+const Login = (props) => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext;
+  useEffect(() => {
+    authContext.isAuthenticated && props.history.push('/');
+  }, [isAuthenticated, props.history]);
   return (
     <div className="columns is-centered">
       <div className="column is-four-fifths">

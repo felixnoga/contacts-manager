@@ -10,7 +10,11 @@ import { AuthProvider } from './context/auth/authContext';
 import { AlertProvider } from './context/alert/alertContext';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
+import setAuthToken from './helpers/setAuthToken';
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 const App = () => {
   return (
     <AuthProvider>
@@ -19,14 +23,13 @@ const App = () => {
           <Router>
             <Fragment>
               <Navbar />
-              <div className="container">
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
-                  <Route exact path="/about" component={About} />
-                </Switch>
-              </div>
+
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/about" component={About} />
+              </Switch>
             </Fragment>
           </Router>
         </AlertProvider>

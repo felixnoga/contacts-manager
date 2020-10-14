@@ -1,17 +1,26 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { ContactContext } from '../../context/contact/contactContext';
 import { faUser, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import Alerts from '../layout/Alerts';
 import Input from '../form/Input';
 import * as EmailValidator from 'email-validator';
+import { AuthContext } from '../../context/auth/authContext';
+import { AlertContext } from '../../context/alert/alertContext';
+import { ALERT_TYPES } from '../../context/types';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+  const { isAuthenticated } = authContext;
+  const { setAlert, clearAlerts } = alertContext;
   const {
     addContact,
     updateContact,
     current,
     clearCurrent,
-    getAllContacts
+    getAllContacts,
+    error
   } = contactContext;
   useEffect(() => {
     if (current !== null) {
@@ -29,6 +38,23 @@ const ContactForm = () => {
       });
     }
   }, [current]);
+  useEffect(() => {
+    if (error === 'Tamaño máximo de imagen 1 MB') {
+      setAlert(
+        'El tamaño de la imagen no puede superar 1 Mb',
+        ALERT_TYPES.ERROR
+      );
+    }
+    if (
+      error ===
+      'Archivo no válido. Solo se pueden subir imágenes tipo png, jpg, jpeg y webp.'
+    ) {
+      setAlert(
+        'Sólo se permiten archivos de imagen jpeg, jpg, png y web.',
+        ALERT_TYPES.ERROR
+      );
+    }
+  }, [error]);
   const [contact, setContact] = useState({
     id: '',
     name: '',
@@ -41,6 +67,7 @@ const ContactForm = () => {
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const { id, name, email, phone, image, type, oldImage } = contact;
+
   const onChangeHandler = (e) => {
     if (e.target.name === 'image') {
       setContact({ ...contact, [e.target.name]: e.target.files[0] });
@@ -48,7 +75,11 @@ const ContactForm = () => {
       setContact({ ...contact, [e.target.name]: e.target.value });
     }
 
-    if (contact.name.length > 1 && EmailValidator.validate(contact.email)) {
+    if (
+      contact.name.length > 1 &&
+      EmailValidator.validate(contact.email) &&
+      isAuthenticated
+    ) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -97,12 +128,17 @@ const ContactForm = () => {
       type: 'personal'
     });
   };
+  if (!isAuthenticated) {
+    return (
+      <h4>Registrate o logeate para empezar a gestionar tus contactos.</h4>
+    );
+  }
   return (
     <form encType="multipart/form-data" onSubmit={onSumbitHandler}>
       <h3 className="title is-size-4">
         {current ? 'Editar contacto' : 'Añadir contacto'}
       </h3>
-
+      <Alerts />
       <Input
         label="Nombre:"
         placeholder="Nombre"
