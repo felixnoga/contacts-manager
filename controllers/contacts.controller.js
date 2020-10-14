@@ -7,6 +7,7 @@ const authMiddleware = require('../middlewares/auth');
 
 const getContacts = async (req, res) => {
   try {
+    console.log(req.user.id);
     const contacts = await Contact.find({ user: req.user.id }).sort({
       name: 1
     });
@@ -33,9 +34,9 @@ const insertContact = async (req, res) => {
   const { name, email, phone, type } = req.body;
   let image;
   if (req.fileValidationError) {
-    res.status(400).json({ err: req.fileValidationError });
+    res.status(400).json({ msg: req.fileValidationError });
   } else if (req.file.size > 1024 * 1024) {
-    res.status(400).json({ err: 'Tamaño máximo de imagen 1 MB' });
+    res.status(400).json({ msg: 'Tamaño máximo de imagen 1 MB' });
   } else {
     try {
       if (req.file) {

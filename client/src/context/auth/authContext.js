@@ -58,7 +58,7 @@ export const AuthProvider = (props) => {
     } catch (e) {
       e.response &&
         dispatch({ type: REGISTER_FAIL, payload: e.response.data.msg });
-      e.request && dispatch({ type: REGISTER_FAIL, payoload: 'Error grave' });
+      e.request && dispatch({ type: REGISTER_FAIL, payload: 'Error grave' });
     }
   };
   //Login User (create token)
