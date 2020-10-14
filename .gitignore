@@ -6,3 +6,4 @@ node_modules/
 /client/.env.local
 /client/.env.test.local
 /client/.env.production.local
+/uploads/images/*
