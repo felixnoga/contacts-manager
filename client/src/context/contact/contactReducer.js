@@ -9,6 +9,7 @@ import {
   FILTER_CONTACTS,
   GET_CONTACTS,
   SET_CURRENT,
+  SET_LOADING,
   UPDATE_CONTACT
 } from '../types';
 
@@ -18,7 +19,8 @@ const contactReducer = (state, action) => {
       return {
         ...state,
         error: null,
-        contacts: [...state.contacts, action.payload]
+        contacts: [...state.contacts, action.payload],
+        loadingContacts: false
       };
     case GET_CONTACTS:
       return {
@@ -33,6 +35,7 @@ const contactReducer = (state, action) => {
     case UPDATE_CONTACT:
       return {
         ...state,
+        loadingContacts: false,
         contacts: state.contacts.map((contact) =>
           contact.id === action.payload.id ? action.payload : contact
         )
@@ -40,6 +43,7 @@ const contactReducer = (state, action) => {
     case DELETE_CONTACT:
       return {
         ...state,
+        loadingContacts: false,
         contacts: state.contacts.filter(
           (contact) => contact.id !== action.payload
         )
@@ -76,6 +80,11 @@ const contactReducer = (state, action) => {
       return {
         ...state,
         filtered: null
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loadingContacts: true
       };
     default:
       return state;

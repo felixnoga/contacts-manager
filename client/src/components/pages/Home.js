@@ -10,6 +10,7 @@ const Home = () => {
   const authContext = useContext(AuthContext);
   const contactContext = useContext(ContactContext);
   const { isAuthenticated, loading } = authContext;
+  const { loadingContacts } = contactContext;
   useEffect(() => {
     authContext.loadUser();
   }, []);
@@ -17,7 +18,10 @@ const Home = () => {
     return <HomeHero />;
   }
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text="Cargando..." />;
+  }
+  if (loadingContacts) {
+    return <LoadingSpinner text="Trabajando en sus contactos..." />;
   }
   return (
     <div className="container">

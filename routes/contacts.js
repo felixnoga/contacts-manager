@@ -4,6 +4,30 @@ const authMiddleware = require('../middlewares/auth');
 const contactsController = require('../controllers/contacts.controller');
 const path = require('path');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_KEY_ID,
+  secretAccessKey: process.env.AWS_KEY_SECRET
+});
+
+const uploadS3 = multerS3({
+  s3: s3,
+  acl: 'public-read',
+  bucket: process.env.AWS_BUCKET_NAME,
+  metadata: (req, file, cb) => {
+    cb(null, { fieldname: file.fieldname });
+  },
+  key: (req, file, cb) => {
+    const imagePrefix = req.user.id;
+    const uniqueSuffix = '-' + Date.now();
+    const extension = path.extname(file.originalname);
+    const filename = imagePrefix + uniqueSuffix + extension;
+    cb(null, filename);
+  }
+});
+
 const diskStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve(__dirname, '../uploads/images'));
@@ -17,7 +41,7 @@ const diskStorage = multer.diskStorage({
   }
 });
 const options = {
-  storage: diskStorage,
+  storage: uploadS3,
   fileFilter: (req, file, cb) => {
     const extension = path.extname(file.originalname).toLowerCase();
     const mime = file.mimetype;

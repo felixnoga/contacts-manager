@@ -22,6 +22,9 @@ const ContactForm = () => {
     getAllContacts,
     error
   } = contactContext;
+
+  const [fileValue, setFileValue] = useState('');
+
   useEffect(() => {
     if (current !== null) {
       setContact({ ...current, oldImage: current.image });
@@ -68,8 +71,17 @@ const ContactForm = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const { id, name, email, phone, image, type, oldImage } = contact;
 
+  let imgSrc;
+  if (current && process.env.REACT_APP_AWS_ENABLED) {
+    imgSrc = current.image;
+  }
+  if (current && !process.env.REACT_APP_AWS_ENABLED) {
+    imgSrc = `${process.env.REACT_APP_BACKEND_IMAGES_URL}/${current.image}`;
+  }
+
   const onChangeHandler = (e) => {
     if (e.target.name === 'image') {
+      setFileValue(e.target.value);
       setContact({ ...contact, [e.target.name]: e.target.files[0] });
     } else {
       setContact({ ...contact, [e.target.name]: e.target.value });
@@ -85,7 +97,6 @@ const ContactForm = () => {
       setButtonDisabled(true);
     }
   };
-
   const onClearHandler = () => {
     setContact({
       id: '',
@@ -127,6 +138,7 @@ const ContactForm = () => {
       image: '',
       type: 'personal'
     });
+    setFileValue('');
   };
   if (!isAuthenticated) {
     return (
@@ -172,6 +184,7 @@ const ContactForm = () => {
         label={current ? 'Cambiar imagen' : 'Imagen del contacto'}
         type="file"
         placeholder="Subir imagen del contacto"
+        value={fileValue}
         name="image"
         onChangeHandler={onChangeHandler}
         hasIcon={true}
@@ -180,11 +193,7 @@ const ContactForm = () => {
       {current ? (
         <div className="box">
           <p>Imagen actual: </p>
-          <img
-            className="image is-48x48"
-            src={`${process.env.REACT_APP_BACKEND_IMAGES_URL}/${current.image}`}
-            alt=""
-          />
+          <img className="image is-48x48" src={current.image} alt="" />
         </div>
       ) : null}
       <div className="field">

@@ -23,3 +23,10 @@ export const updateCnt = async (formData) => {
   );
   return res.data;
 };
+
+export const deleteCnt = async (id) => {
+  const res = await axios.delete(
+    `${process.env.REACT_APP_BACKEND_URL}/api/contacts/${id}`
+  );
+  return res.data;
+};

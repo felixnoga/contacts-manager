@@ -1,13 +1,18 @@
 const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
+const AWS = require('aws-sdk');
 const Contact = require('../models/Contact');
 const { body, validationResult } = require('express-validator');
 const authMiddleware = require('../middlewares/auth');
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_KEY_ID,
+  secretAccessKey: process.env.AWS_KEY_SECRET
+});
+
 const getContacts = async (req, res) => {
   try {
-    console.log(req.user.id);
     const contacts = await Contact.find({ user: req.user.id }).sort({
       name: 1
     });
@@ -32,33 +37,34 @@ const validateContact = [
 
 const insertContact = async (req, res) => {
   const { name, email, phone, type } = req.body;
-  let image;
+  let imglocation;
   if (req.fileValidationError) {
     res.status(400).json({ msg: req.fileValidationError });
-  } else if (req.file.size > 1024 * 1024) {
+  } else if (req.file && req.file.size > 1024 * 1024) {
     res.status(400).json({ msg: 'Tamaño máximo de imagen 1 MB' });
   } else {
     try {
       if (req.file) {
-        image = req.file.filename;
-        const ext = path.extname(image);
-        const folder = path.resolve(__dirname, '../uploads/images');
-        fs.renameSync(
-          `${folder}/${image}`,
-          `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-            req.user.id
-          }${ext}`
-        );
-        image = `${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-          req.user.id
-        }${ext}`;
+        imglocation = req.file.location;
+        // image = req.file.filename;
+        // const ext = path.extname(image);
+        // const folder = path.resolve(__dirname, '../uploads/images');
+        // fs.renameSync(
+        //   `${folder}/${image}`,
+        //   `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
+        //     req.user.id
+        //   }${ext}`
+        // );
+        // image = `${name.replace(/\s+/g, '').trim().toLowerCase()}-${
+        //   req.user.id
+        // }${ext}`;
       }
       const newContact = new Contact({
         name,
         email,
         phone,
         type,
-        image,
+        image: imglocation,
         user: req.user.id
       });
       const contact = await newContact.save();
@@ -79,20 +85,27 @@ const updateContact = async (req, res) => {
   if (phone) updatedContact.phone = phone;
   if (type) updatedContact.type = type;
   if (req.file) {
-    console.log(req.file.filename);
-    const image = req.file.filename;
-    const ext = path.extname(image);
-    const folder = path.resolve(__dirname, '../uploads/images');
-    fs.unlinkSync(`${folder}/${oldImage}`);
-    fs.renameSync(
-      `${folder}/${image}`,
-      `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-        req.user.id
-      }${ext}`
+    // const image = req.file.filename;
+    // const ext = path.extname(image);
+    // const folder = path.resolve(__dirname, '../uploads/images');
+    // fs.unlinkSync(`${folder}/${oldImage}`);
+    // fs.renameSync(
+    //   `${folder}/${image}`,
+    //   `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
+    //     req.user.id
+    //   }${ext}`
+    // );
+    updatedContact.image = req.file.location;
+    s3.deleteObject(
+      {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: oldImage
+      },
+      (err, data) => {
+        if (err) console.log(err);
+        else console.log(data);
+      }
     );
-    updatedContact.image = `${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-      req.user.id
-    }${ext}`;
   }
 
   try {
@@ -122,6 +135,19 @@ const deleteContact = async (req, res) => {
     if (contact.user.toString() !== req.user.id)
       return res.status(401).json({ msg: 'No autorizado a eliminar' });
     const deletedContact = await Contact.findByIdAndRemove(req.params.id);
+    const url = new URL(deletedContact.image);
+    const image = url.pathname.substring(1);
+    image !== 'default.png' &&
+      s3.deleteObject(
+        {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: image
+        },
+        (err, data) => {
+          if (err) console.log(err);
+          else console.log(data);
+        }
+      );
     res.json({ msg: 'Contacto eliminado', contacto: deletedContact });
   } catch (e) {
     console.log(e.message);

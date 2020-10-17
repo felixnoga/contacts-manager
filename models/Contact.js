@@ -20,7 +20,8 @@ const contactSchema = new Schema({
   },
   image: {
     type: String,
-    default: 'default.png'
+    default:
+      'https://contacts-manager1981.s3.eu-west-3.amazonaws.com/default.png'
   },
   type: {
     type: String,
