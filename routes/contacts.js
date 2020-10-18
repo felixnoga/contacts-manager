@@ -28,18 +28,6 @@ const uploadS3 = multerS3({
   }
 });
 
-const diskStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.resolve(__dirname, '../uploads/images'));
-  },
-  filename: (req, file, cb) => {
-    const imagePrefix = req.user.id;
-    const uniqueSuffix = '-' + Date.now();
-    const extension = path.extname(file.originalname);
-    const filename = imagePrefix + uniqueSuffix + extension;
-    cb(null, filename);
-  }
-});
 const options = {
   storage: uploadS3,
   fileFilter: (req, file, cb) => {
@@ -55,8 +43,7 @@ const options = {
       mime !== 'image/jpeg' &&
       mime !== 'image/webp'
     ) {
-      req.fileValidationError =
-        'Archivo no válido. Solo se pueden subir imágenes tipo png, jpg, jpeg y webp.';
+      req.fileValidationError = 'Archivo no valido';
       cb(null, false);
     } else {
       req.fileValidationError = null;

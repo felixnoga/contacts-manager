@@ -51,6 +51,7 @@ const contactReducer = (state, action) => {
     case CONTACT_ERROR:
       return {
         ...state,
+        loadingContacts: false,
         error: action.payload
       };
     case SET_CURRENT:

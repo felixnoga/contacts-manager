@@ -39,25 +39,13 @@ const insertContact = async (req, res) => {
   const { name, email, phone, type } = req.body;
   let imglocation;
   if (req.fileValidationError) {
-    res.status(400).json({ msg: req.fileValidationError });
+    return res.status(400).json({ msg: req.fileValidationError });
   } else if (req.file && req.file.size > 1024 * 1024) {
-    res.status(400).json({ msg: 'Tamaño máximo de imagen 1 MB' });
+    return res.status(400).json({ msg: 'Tamaño máximo de imagen 1 MB' });
   } else {
     try {
       if (req.file) {
         imglocation = req.file.location;
-        // image = req.file.filename;
-        // const ext = path.extname(image);
-        // const folder = path.resolve(__dirname, '../uploads/images');
-        // fs.renameSync(
-        //   `${folder}/${image}`,
-        //   `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-        //     req.user.id
-        //   }${ext}`
-        // );
-        // image = `${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-        //   req.user.id
-        // }${ext}`;
       }
       const newContact = new Contact({
         name,
@@ -85,16 +73,6 @@ const updateContact = async (req, res) => {
   if (phone) updatedContact.phone = phone;
   if (type) updatedContact.type = type;
   if (req.file) {
-    // const image = req.file.filename;
-    // const ext = path.extname(image);
-    // const folder = path.resolve(__dirname, '../uploads/images');
-    // fs.unlinkSync(`${folder}/${oldImage}`);
-    // fs.renameSync(
-    //   `${folder}/${image}`,
-    //   `${folder}/${name.replace(/\s+/g, '').trim().toLowerCase()}-${
-    //     req.user.id
-    //   }${ext}`
-    // );
     updatedContact.image = req.file.location;
     s3.deleteObject(
       {

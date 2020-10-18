@@ -12,8 +12,8 @@ const Login = (props) => {
     authContext.isAuthenticated && props.history.push('/');
   }, [isAuthenticated, props.history]);
   return (
-    <div className="columns is-centered">
-      <div className="column is-four-fifths">
+    <div className="columns is-centered mt-4">
+      <div className="column is-four-fifths mx-2">
         <h3 className="title has-text-info-dark">
           <FontAwesomeIcon icon={faSignInAlt} className="login-icon" /> Inicia
           tu sesión

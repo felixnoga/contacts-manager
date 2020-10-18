@@ -13,17 +13,13 @@ const ContactItem = ({ contact }) => {
     clearCurrent();
   };
 
-  const imgSrc = process.env.REACT_APP_AWS_ENABLED
-    ? contact.image
-    : `${process.env.REACT_APP_BACKEND_IMAGES_URL}/${contact.image}`;
-
   return (
     <div className="column is-half-desktop">
       <div className="card mb-3">
         <div className="card-header">
           <h5 className="card-header-title is-size-7">
             <figure className="image is-32x32 mr-2">
-              <img className="is-rounded" src={imgSrc} />
+              <img className="is-rounded" src={contact.image} />
             </figure>
             {contact.name}
           </h5>

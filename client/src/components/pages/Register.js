@@ -16,7 +16,7 @@ const Register = (props) => {
     }
   }, [isAuthenticated, props.history]);
   return (
-    <div className="columns is-centered">
+    <div className="columns is-centered mt-3">
       <div className="column is-four-fifths">
         <h3 className="title has-text-info-dark">
           <FontAwesomeIcon icon={faShareSquare} className="login-icon" /> Crear

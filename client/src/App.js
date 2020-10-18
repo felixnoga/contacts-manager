@@ -23,7 +23,6 @@ const App = () => {
           <Router>
             <Fragment>
               <Navbar />
-
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/register" component={Register} />

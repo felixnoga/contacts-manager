@@ -13,7 +13,7 @@ const ContactForm = () => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { isAuthenticated } = authContext;
-  const { setAlert, clearAlerts } = alertContext;
+  const { setAlert } = alertContext;
   const {
     addContact,
     updateContact,
@@ -48,12 +48,9 @@ const ContactForm = () => {
         ALERT_TYPES.ERROR
       );
     }
-    if (
-      error ===
-      'Archivo no válido. Solo se pueden subir imágenes tipo png, jpg, jpeg y webp.'
-    ) {
+    if (error === 'Archivo no valido') {
       setAlert(
-        'Sólo se permiten archivos de imagen jpeg, jpg, png y web.',
+        'Sólo se permiten archivos de imagen jpeg, jpg, png y webp.',
         ALERT_TYPES.ERROR
       );
     }
@@ -70,14 +67,6 @@ const ContactForm = () => {
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const { id, name, email, phone, image, type, oldImage } = contact;
-
-  let imgSrc;
-  if (current && process.env.REACT_APP_AWS_ENABLED) {
-    imgSrc = current.image;
-  }
-  if (current && !process.env.REACT_APP_AWS_ENABLED) {
-    imgSrc = `${process.env.REACT_APP_BACKEND_IMAGES_URL}/${current.image}`;
-  }
 
   const onChangeHandler = (e) => {
     if (e.target.name === 'image') {
@@ -97,7 +86,8 @@ const ContactForm = () => {
       setButtonDisabled(true);
     }
   };
-  const onClearHandler = () => {
+  const onClearHandler = (e) => {
+    e.preventDefault();
     setContact({
       id: '',
       name: '',
