@@ -1,40 +1,19 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import gsap from 'gsap';
+import { animateHero } from '../../helpers/animations';
 import '../css/home-hero.scss';
 
 const HomeHero = (props) => {
   const title = useRef(null);
   const subtitle = useRef(null);
-  const button = useRef([]);
-  const tl = gsap.timeline();
+  const hero = useRef(null);
+  const buttons = useRef([]);
+
   useEffect(() => {
-    tl.from(title.current, {
-      y: -250,
-      scale: 3,
-      opacity: 0,
-      delay: 0.5,
-      duration: 1,
-      ease: 'back'
-    })
-      .from(
-        subtitle.current,
-        { y: 200, opacity: 0, duration: 1.5, ease: 'elastic' },
-        '<0.3'
-      )
-      .from(
-        button.current,
-        {
-          opacity: 0,
-          yPercent: 50,
-          ease: 'back',
-          duration: 1
-        },
-        '<0.5'
-      );
+    animateHero(title, subtitle, buttons);
   }, []);
   return (
-    <section className="hero is-bold">
+    <section ref={hero} className="hero is-bold">
       <div className="hero-body">
         <div className="container mt-6">
           <h1
@@ -53,7 +32,7 @@ const HomeHero = (props) => {
             <div className="column is-narrow has-text-centered">
               <Link to="/register">
                 <button
-                  ref={(el) => (button.current[0] = el)}
+                  ref={(el) => (buttons.current[0] = el)}
                   className="button is-info "
                 >
                   Registrarse
@@ -64,7 +43,7 @@ const HomeHero = (props) => {
             <div className="column is-narrow has-text-centered">
               <Link to="/login">
                 <button
-                  ref={(el) => (button.current[1] = el)}
+                  ref={(el) => (buttons.current[1] = el)}
                   className="button is-primary "
                 >
                   Sign In

@@ -15,8 +15,8 @@ const Input = (props) => {
     addedClass
   } = props;
   return (
-    <div className="field">
-      <label className="label">{label}</label>
+    <div className="field mb-5">
+      <label className="label mb-3 has-text-grey-dark">{label}</label>
       <div className={`control ${hasIcon ? 'has-icons-left' : ''}`}>
         <input
           className={`input ${addedClass}`}
