@@ -3,15 +3,14 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { ContactContext } from '../../context/contact/contactContext';
 import ContactItem from './ContactItem';
 import ContactFilter from '../contacts/ContactFilter';
-import Alerts from '../layout/Alerts';
+
 import '../css/contacts.scss';
-import { AlertContext } from '../../context/alert/alertContext';
-import { ALERT_TYPES } from '../../context/types';
+
 import { AuthContext } from '../../context/auth/authContext';
 
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
-  const alertContext = useContext(AlertContext);
+
   const authContext = useContext(AuthContext);
   const { contacts, filtered, getAllContacts } = contactContext;
 

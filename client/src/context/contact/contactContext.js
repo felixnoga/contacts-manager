@@ -1,7 +1,6 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import contactReducer from './contactReducer';
-import axios from 'axios';
 import {
   getContacts,
   addCnt,
@@ -18,7 +17,6 @@ import {
   CLEAR_FILTER,
   GET_CONTACTS,
   CONTACT_ERROR,
-  CLEAR_ERRORS,
   CLEAR_CONTACTS,
   SET_LOADING
 } from '../types';
@@ -34,12 +32,12 @@ const initialState = {
 
 export const ContactProvider = (props) => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
-  useEffect(() => {
-    const initializeContacts = async () => {
-      await getAllContacts();
-    };
-    initializeContacts();
-  }, []);
+  // useEffect(() => {
+  //   const initializeContacts = async () => {
+  //     await getAllContacts();
+  //   };
+  //   initializeContacts();
+  // }, []);
 
   //Add Contact
   const addContact = async (formData) => {
@@ -70,7 +68,7 @@ export const ContactProvider = (props) => {
   //Delete Contact
   const deleteContact = async (id) => {
     dispatch({ type: SET_LOADING });
-    const res = await deleteCnt(id);
+    await deleteCnt(id);
     dispatch({ type: DELETE_CONTACT, payload: id });
   };
   //Set current Contact

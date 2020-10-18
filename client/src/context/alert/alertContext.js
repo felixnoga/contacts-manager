@@ -1,7 +1,7 @@
 import React, { useReducer, createContext } from 'react';
 import alertReducer from './alertReducer';
 import { v4 as uuidv4 } from 'uuid';
-import { REMOVE_ALERT, SET_ALERT, ALERT_TYPES, CLEAR_ALERTS } from '../types';
+import { REMOVE_ALERT, SET_ALERT, CLEAR_ALERTS } from '../types';
 
 export const AlertContext = createContext();
 export const AlertProvider = (props) => {

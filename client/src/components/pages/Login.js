@@ -9,7 +9,7 @@ const Login = (props) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated } = authContext;
   useEffect(() => {
-    authContext.isAuthenticated && props.history.push('/');
+    isAuthenticated && props.history.push('/');
   }, [isAuthenticated, props.history]);
   return (
     <div className="columns is-centered is-mobile mt-4">

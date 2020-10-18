@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ContactContext } from '../../context/contact/contactContext';
 import { faUser, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import Alerts from '../layout/Alerts';

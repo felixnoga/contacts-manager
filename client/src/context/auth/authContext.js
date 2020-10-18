@@ -19,7 +19,7 @@ export const AuthProvider = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
-    loading: true,
+    loading: false,
     user: null,
     error: null
   };
@@ -30,14 +30,14 @@ export const AuthProvider = (props) => {
   const loadUser = async () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
-    }
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/auth`
-      );
-      dispatch({ type: USER_LOADED, payload: res.data });
-    } catch (e) {
-      dispatch({ type: AUTH_ERROR });
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/auth`
+        );
+        dispatch({ type: USER_LOADED, payload: res.data });
+      } catch (e) {
+        dispatch({ type: AUTH_ERROR });
+      }
     }
   };
   //Register User (register a new user)
@@ -62,11 +62,6 @@ export const AuthProvider = (props) => {
     }
   };
   //Login User (create token)
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
   const login = async (data) => {
     try {
       const res = await axios.post(

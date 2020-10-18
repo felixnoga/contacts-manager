@@ -19,7 +19,7 @@ const ContactItem = ({ contact }) => {
         <div className="card-header">
           <h5 className="card-header-title is-size-7">
             <figure className="image is-32x32 mr-2">
-              <img className="is-rounded" src={contact.image} />
+              <img className="is-rounded" src={contact.image} alt="contact" />
             </figure>
             {contact.name}
           </h5>

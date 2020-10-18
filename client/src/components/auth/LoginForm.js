@@ -15,7 +15,7 @@ const LoginForm = (props) => {
     password: ''
   });
   const { email, password } = user;
-  const { login, error, isAuthenticated } = authContext;
+  const { login, error } = authContext;
   const { setAlert } = alertContext;
   useEffect(() => {
     error === 'Las credenciales son incorrectas' &&

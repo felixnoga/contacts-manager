@@ -30,6 +30,9 @@ const Navbar = ({ title, icon }) => {
     burgerOpen && setBurgerOpen(!burgerOpen);
   };
 
+  const closeMenu = () => {
+    burgerOpen && setBurgerOpen(false);
+  };
   return (
     <nav className="navbar has-background-primary">
       <div className="navbar-brand ml-3">
@@ -79,7 +82,7 @@ const Navbar = ({ title, icon }) => {
 
           <Link
             to="/"
-            onClick={toggleBurgerMenu}
+            onClick={closeMenu}
             className={`navbar-item ${
               burgerOpen ? 'has-text-primary has-text-centered' : ''
             }`}
@@ -88,7 +91,7 @@ const Navbar = ({ title, icon }) => {
           </Link>
           <Link
             to="/register"
-            onClick={toggleBurgerMenu}
+            onClick={closeMenu}
             className={`navbar-item ${
               burgerOpen ? 'has-text-primary has-text-centered' : ''
             }`}
@@ -108,7 +111,7 @@ const Navbar = ({ title, icon }) => {
           ) : (
             <Link
               to="/login"
-              onClick={toggleBurgerMenu}
+              onClick={closeMenu}
               className={`navbar-item ${
                 burgerOpen ? 'has-text-primary has-text-centered' : ''
               }`}
@@ -118,7 +121,7 @@ const Navbar = ({ title, icon }) => {
           )}
           <Link
             to="/about"
-            onClick={toggleBurgerMenu}
+            onClick={closeMenu}
             className={`navbar-item ${
               burgerOpen ? 'has-text-primary has-text-centered' : ''
             }`}
